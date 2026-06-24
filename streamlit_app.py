@@ -9,12 +9,15 @@ if st.button("CHECK MESSAGE"):
     else:
         res=requests.post("http://127.0.0.1:5000/predict",json={"message":data})
         response=res.json()
+        res2=requests.get("http://127.0.0.1:5000/accuracy")
         if response['Prediction']=="spam":
             st.error("This message is a spam")
             st.write("MODEL PREDICTED AS:",1)
         else:
             st.success("THIS MESSAGE IS NOT A SPAM")
             st.write("MODEL PREDICTED AS:",0)
+        accuracy=res2.json()['accuracy']
+        st.write(f"MODEL ACCURACY IS:{accuracy*100:.2f}%")
 
 
 

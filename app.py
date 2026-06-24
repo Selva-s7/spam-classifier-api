@@ -2,7 +2,12 @@ from flask import Flask,request,jsonify
 import joblib
 import pandas as pd
 app=Flask(__name__)
+with open('accuracy.txt','r' ) as rf:
+    accuracy=float(rf.read())
 pipeline=joblib.load('spam-pipeline.joblib')
+@app.route('/accuracy',methods=['GET'])
+def disp():
+    return jsonify({'accuracy':accuracy})
 @app.route('/predict',methods=['POST'])
 def spamPredict():
     data=request.get_json()
